@@ -27,6 +27,7 @@ int32 FBbullCowGame::GetCurrentTry() const { return MyCurrentTry; }
 int32 FBbullCowGame::GetHiddenWordLength() const { return MyHiddenWord.length(); }
 FString FBbullCowGame::GetHiddenWord() const { return MyHiddenWord; }
 bool FBbullCowGame::bIsGameWon() const { return bGameIsWon; }
+int32 FBbullCowGame::GetPlayThroughCounter() const { return PlayThroughCounter; }
 ////
 
 ////
@@ -36,7 +37,7 @@ EGuessStatus FBbullCowGame::CheckGuessValidity(FString Guess) const
     if (!bIsIsogram(Guess))                                             //if the guess isn't an isogram
     { return EGuessStatus::Not_Isogram; }
     else if (!bIsLowercase(Guess))                                                                             //if the guess isn't all lowercase
-    { return EGuessStatus::Not_Lowercase; }                             // TODO write function to check if all lowercase
+    { return EGuessStatus::Not_Lowercase; }                             // function to check if all lowercase
     else if (Guess.length() != GetHiddenWordLength()) { return EGuessStatus::Wrong_Length; }    //if guess length is wrong
     else { return EGuessStatus::OK; }                                                           //otherwise
 }
@@ -45,6 +46,7 @@ EGameSummary FBbullCowGame::CheckGameSummary() const        //Sets a status to b
     if (bGameIsWon == true) { return EGameSummary::Won; }
     else { return EGameSummary::Lost; }
 }
+void FBbullCowGame::IncrementPlayThroughCounter() {PlayThroughCounter++;}
 ////
 
 void FBbullCowGame::Reset()
@@ -80,11 +82,13 @@ FBullCowCount FBbullCowGame::SubmitValidGuess(FString Guess) {
 
 void FBbullCowGame::PrintGameSummary()
 {
+    FString TryOrTries = "tries";
+    if (GetCurrentTry() == 2) { TryOrTries = "try"; }
     EGameSummary Summary = EGameSummary::invalid;
     Summary = FBbullCowGame::CheckGameSummary();
     switch (Summary) {
         case EGameSummary::Won :
-            std::cout << "You won the game!\nIt took you " << GetCurrentTry() - 1 << " tries to guess the right word!\n";
+            std::cout << "You won the game!\nIt took you " << GetCurrentTry() - 1 << " " << TryOrTries << " to guess the right word!\n";
             break;
         case EGameSummary::Lost :
             std::cout << "You lost the game.\nBetter luck next time.\n";
@@ -97,6 +101,14 @@ void FBbullCowGame::PrintGameSummary()
 
 void FBbullCowGame::quit() // TODO give an actual function definition.
     {}
+
+void FBbullCowGame::BullCowHint()
+{
+    if (GetPlayThroughCounter() == 1) {
+    std::cout << "(A Bull means that one of your letters is in the correct spot.\n";
+    std::cout << "A Cow means that one of your letters is present, just not in the right position.)\n";
+    }
+}
 
 ////Private Functions
 bool FBbullCowGame::bIsIsogram(FString Word) const     //Isogram test using TMap
@@ -119,7 +131,7 @@ bool FBbullCowGame::bIsIsogram(FString Word) const     //Isogram test using TMap
     return true; //for example in cases where /0 is entered
 }
 
-bool FBbullCowGame::bIsLowercase(FString Word) const          // TODO create lowercase checking function
+bool FBbullCowGame::bIsLowercase(FString Word) const          //  lowercase checking function
 {
     //need a range-based for loop, using auto, that spans the word (see bIsIsogram definition)
     for (auto Letter : Word)         //for each letter in the word
@@ -132,6 +144,7 @@ bool FBbullCowGame::bIsLowercase(FString Word) const          // TODO create low
     
     return true;
 }
+
 
 //Trial stuff
 
