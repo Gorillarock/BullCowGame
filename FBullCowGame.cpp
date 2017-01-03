@@ -35,7 +35,7 @@ EGuessStatus FBbullCowGame::CheckGuessValidity(FString Guess) const
 {
     if (!bIsIsogram(Guess))                                             //if the guess isn't an isogram
     { return EGuessStatus::Not_Isogram; }
-    else if (false)                                                                             //if the guess isn't all lowercase
+    else if (!bIsLowercase(Guess))                                                                             //if the guess isn't all lowercase
     { return EGuessStatus::Not_Lowercase; }                             // TODO write function to check if all lowercase
     else if (Guess.length() != GetHiddenWordLength()) { return EGuessStatus::Wrong_Length; }    //if guess length is wrong
     else { return EGuessStatus::OK; }                                                           //otherwise
@@ -99,18 +99,39 @@ void FBbullCowGame::quit() // TODO give an actual function definition.
     {}
 
 ////Private Functions
-bool FBbullCowGame::bIsIsogram(FString Word) const     // TODO create test using TMap
+bool FBbullCowGame::bIsIsogram(FString Word) const     //Isogram test using TMap
 {
     //treat 0 and 1 letter words as isograms
+    if (Word.length()<=1) { return true; }
+    //set up a Map
+    TMap<char, bool> LetterSeen;                 //declared TMap
     //loop through all the letters of the word
+    for (auto Letter : Word)        // for all letters of the Word
+    {
+        Letter = tolower(Letter);       //handle mixed case
+        
         //if letter is in the map
+        if (LetterSeen[Letter] == true) { return false; }
             //we do not have an isogram
-        //otherwise
-            //add the letter to the map as seen
-
+        else//otherwise
+        {LetterSeen[Letter] = true;}    //add the letter to the map as seen
+    }
     return true; //for example in cases where /0 is entered
 }
 
+bool FBbullCowGame::bIsLowercase(FString Word) const          // TODO create lowercase checking function
+{
+    //need a range-based for loop, using auto, that spans the word (see bIsIsogram definition)
+    for (auto Letter : Word)         //for each letter in the word
+    {
+        if (islower(Letter)) { return true; }
+        else { return false; }
+    }
+
+    
+    
+    return true;
+}
 
 //Trial stuff
 
