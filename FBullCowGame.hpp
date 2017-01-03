@@ -52,12 +52,15 @@ public:
     int32 GetHiddenWordLength() const;
     FString GetHiddenWord() const;
     bool bIsGameWon() const;
+    int32 GetPlayThroughCounter() const;
+    
     ////
     
     ////
     //Semi-Getters
     EGuessStatus CheckGuessValidity(FString Guess) const;
     EGameSummary CheckGameSummary() const;
+    void IncrementPlayThroughCounter();
     ////
     
     void Reset();                                              //TODO make a more rich return value.
@@ -65,7 +68,7 @@ public:
     void PrintGameSummary();
     char TradeTurnForLetter();                                 //type of hint
     void quit();                                               //TODO make a more rich return value.
-
+    void BullCowHint();                                        //reads out purpose of Bulls and Cows
 
 
 private:
@@ -75,4 +78,5 @@ private:
     bool bGameIsWon;
     bool bIsIsogram(FString) const;
     bool bIsLowercase(FString) const;
+    int32 PlayThroughCounter = 1;                                  //stores number of times played through
 };
