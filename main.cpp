@@ -11,12 +11,13 @@
  This acts as the view in a MVC pattern, and is responsible for all user interaction. For game logic see the FBullCowGame class.
  */
 
-
+#pragma once
 #include <iostream>
 #include <string>
 #include "FBullCowGame.hpp"
 //#include <random>
 
+//making syntax match unreal
 using FText = std::string;
 using int32 = int;
 
@@ -25,11 +26,12 @@ FBbullCowGame BCGame;  //Giving global access to the BCGame
 ////
 
 ////
-//Function declarations (defined after return 0)
+//Function declarations (defined after return 0) not in a class
 void PrintIntro();
 void PlayGame();
 FText GetValidGuess();
 bool AskToPlayAgain();
+
 ////
 
 ////
@@ -55,6 +57,13 @@ int main()
 void PrintIntro()           // introduce the game
 {
     std::cout << "\n\nWelcome to Bulls and Cows, a fun word game.\n";
+    std::cout << std::endl;
+    std::cout << "        <=}---{=>      <---> " << std::endl;
+    std::cout << "          (o o)        (o o) " << std::endl;
+    std::cout << "   /-------\\ /          \\ /-------\\ " << std::endl;
+    std::cout << "  / | BULL |O            O| COW  | \\ " << std::endl;
+    std::cout << " *  |----- |              |---,,-|  * " <<std::endl;
+    std::cout << "    ^      ^              ^      ^ " << std::endl;
     std::cout << "Can you guess the " << BCGame.GetHiddenWordLength();
     std::cout << " letter isogram I'm thinking of?\n";
     BCGame.BullCowHint();

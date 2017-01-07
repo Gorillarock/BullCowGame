@@ -5,29 +5,31 @@
 //  Created by Slyta Sound on 12/7/16.
 //  Copyright © 2016 Slyta Sound. All rights reserved.
 //
-
+#pragma once
 #include "FBullCowGame.hpp"
 #include <string>
 #include <iostream>
 #include <map>
+//make unreal friendy
 #define TMap std::map
-
-//#include <random>
 using int32 = int;
 
 //Constructor
-FBbullCowGame::FBbullCowGame() { Reset(); }
-
+FBbullCowGame::FBbullCowGame() { Reset(); }  //default constructor
 
 
 ////
 //Getters
-int32 FBbullCowGame::GetMaxTries() const { return MyMaxTries; }
+
 int32 FBbullCowGame::GetCurrentTry() const { return MyCurrentTry; }
 int32 FBbullCowGame::GetHiddenWordLength() const { return MyHiddenWord.length(); }
 FString FBbullCowGame::GetHiddenWord() const { return MyHiddenWord; }
 bool FBbullCowGame::bIsGameWon() const { return bGameIsWon; }
 int32 FBbullCowGame::GetPlayThroughCounter() const { return PlayThroughCounter; }
+int32 FBbullCowGame::GetMaxTries() const {
+    TMap<int32, int32> WordLengthToMaxTries {{4,7},{6,16},{5,10},{7,20}};      //TMap for easy swaping of # of tries, driven by MyHiddenWord.length as first int32 in pair
+    return WordLengthToMaxTries[MyHiddenWord.length()];
+}
 ////
 
 ////
@@ -46,15 +48,17 @@ EGameSummary FBbullCowGame::CheckGameSummary() const        //Sets a status to b
     if (bGameIsWon == true) { return EGameSummary::Won; }
     else { return EGameSummary::Lost; }
 }
+
 void FBbullCowGame::IncrementPlayThroughCounter() {PlayThroughCounter++;}
 ////
+
+
 
 void FBbullCowGame::Reset()
 {
     constexpr int32 MAX_TRIES = 8;
-    const FString HIDDEN_WORD = "donkey";
+    const FString HIDDEN_WORD = "donkey";    // TODO make a function that returns a Hidden Word.
     MyCurrentTry = 1;
-    MyMaxTries = MAX_TRIES;
     MyHiddenWord = HIDDEN_WORD;
     bGameIsWon = false;
 }
