@@ -5,6 +5,10 @@
 //  Created by Slyta Sound on 12/7/16.
 //  Copyright © 2016 Slyta Sound. All rights reserved.
 //
+/*
+ The game logic (no view code or direct user interaction)
+ The game is a simple guess the word game based on Mastermind
+ */
 
 #pragma once
 #ifndef FBullCowGame_hpp
@@ -13,6 +17,7 @@
 #include <stdio.h>
 #include <string>
 
+//formating for unreal standars
 using FString = std::string;
 using int32 = int;
 #endif /* FBullCowGame_hpp */
@@ -28,6 +33,7 @@ enum class EGameSummary
     Lost,
     invalid,
 };
+
 
 enum class EGuessStatus
 {
@@ -63,17 +69,21 @@ public:
     void IncrementPlayThroughCounter();
     ////
     
-    void Reset();                                              //TODO make a more rich return value.
+    //user recieved value for desired word length
+   // int32 VariableHWLin;
+  
+    
+    
+    void Reset();                           
     FBullCowCount SubmitValidGuess(FString);
     void PrintGameSummary();
     char TradeTurnForLetter();                                 //type of hint
     void quit();                                               //TODO make a more rich return value.
     void BullCowHint();                                        //reads out purpose of Bulls and Cows
 
-
+// see constructor for initial values
 private:
     int32 MyCurrentTry;
-    int32 MyMaxTries;
     FString MyHiddenWord;
     bool bGameIsWon;
     bool bIsIsogram(FString) const;
